@@ -84,10 +84,6 @@ const markup = galleryItems.join('');
 
 parentElement.insertAdjacentHTML('beforeend', markup);
 
-parentElement.addEventListener('click', event => {
-  event.preventDefault();
-  console.log(event.target.dataset.source);
-});
 // ////////////////////////////////////////////////////////////////////////
 function openModal(image) {
   const instance = basicLightbox.create(
@@ -103,7 +99,15 @@ function openModal(image) {
 }
 
 parentElement.addEventListener('click', e => {
-  if (e.target.nodeName !== 'IMG') return;
+  const clickedEl = e.target;
+
+  if (clickedEl.nodeName !== 'IMG') return;
+
+  const linkEl = clickedEl.closest('a');
+  if (linkEl) {
+    e.preventDefault();
+  }
+  console.log(e.target.dataset.source);
   const imageId = e.target.dataset.source;
   const imageInfo = images.find(el => el.original === imageId);
   openModal(imageInfo);
